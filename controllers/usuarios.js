@@ -1,41 +1,65 @@
 const {response, request} = require('express')
+const Usuario = require('../models/usuario');
 
 
 const usuariosGet = (req = request, res = response) => {
 
-    const {q, nombre} = req.query;
+    Usuario
+        .find()
+        .then(data => res.json(data))
+        .catch(error => res.json({message: error}))
 
-    res.json({
-        msg: 'get API - controlador',
-        q,
-        nombre
-    });
+    // res.json({
+    //     msg: 'get API - controlador',
+    //     q,
+    //     nombre
+    // });
 }
 
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async(req, res = response) => {
+
+    // const {id} = req.params;
+    // const {nombre, email} = req.body;
+
+    // Usuario
+    //     .updateOne({_id: id}, {$set: {nombre, email}})
+    //     .then(data => res.json(data))
+    //     .catch(error => res.json({message: error}))
 
     const {id} = req.params;
+    const {nombre, email} = req.body;
+
+    const usuario = await Usuario.findByIdAndUpdate(id, {nombre, email});
 
     res.json({
-        msg: 'put API - controlador',
-        id
+        usuario
     });
 }
 
-const usuariosPost = (req, res = response) => {
+const usuariosPost = async(req, res = response) => {
 
-    const {nombre, edad} = req.body;
+    const body = req.body;
+    const usuario = new Usuario(body)
+
+    await usuario.save();
+
     res.json({
-        msg: 'post API - controlador',
-        nombre,
-        edad
-    });
+        usuario
+    })
 }
 
 const usuariosDelete = (req, res = response) => {
-    res.json({
-        msg: 'delete API - controlador'
-    });
+
+    const {id} = req.params;
+
+    Usuario
+        .remove({_id: id})
+        .then(data => res.json(data))
+        .catch(error => res.json({message: error}))
+
+    // res.json({
+    //     msg: 'delete API - controlador'
+    // });
 }
 
 module.exports = {

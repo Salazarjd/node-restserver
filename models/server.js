@@ -1,14 +1,16 @@
 const express = require('express')
-const mongoose = require('mongoose');
+const { dbConnection } = require('../database/config');
 
 class Server{
 
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.mongoDbUri = process.env.MONGODB_COMPAS;
+        // this.mongoDbUri = process.env.MONGODB_COMPAS;
         this.usuariosPath = '/api/usuarios';
 
+        //Conectar a base de datos
+        this.conectarDB();
 
         //Middlewares
         this.middlewares();
@@ -16,6 +18,10 @@ class Server{
 
         //Rutas de mi aplicación
         this.Routes();
+    }
+
+    async conectarDB(){
+        await dbConnection();
     }
 
     middlewares(){
@@ -37,12 +43,6 @@ class Server{
         });
     }
 
-    conection(){
-        mongoose
-        .connect(this.mongoDbUri)
-        .then(() => console.log('Connected to MongoDB Compass'))
-        .catch(error => console.errofr(error));
-    }
 }
 
 
