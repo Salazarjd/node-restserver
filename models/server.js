@@ -6,7 +6,7 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.mongoDbUri = process.env.MONGODB_URI;
+        this.mongoDbUri = process.env.MONGODB_COMPAS;
         this.usuariosPath = '/api/usuarios';
 
 
@@ -40,7 +40,7 @@ class Server{
     conection(){
         mongoose
         .connect(this.mongoDbUri)
-        .then(() => console.log('Connected to MongoDB Atlas'))
+        .then(() => console.log('Connected to MongoDB Compass'))
         .catch(error => console.errofr(error));
     }
 }
