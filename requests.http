@@ -3,26 +3,27 @@ GET http://localhost:8080/api/usuarios HTTP/1.1
 
 
 ###
-PUT http://localhost:8080/api/usuarios/6284197026e8d923e2b1938a HTTP/1.1
-Content-Type: application/json
-
-{
-    "nombre": "Antonio Salazar",
-    "email": "antonio@mail.com"
-}
-
-
-###
 POST http://localhost:8080/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
-    "nombre": "Daniel Rojas",
-    "email": "drojas@email.com"
+    "nombre": "Homero Salazar",
+    "email": "hsalazar@email.com"
 }
 
 
 ###
-DELETE http://localhost:8080/api/usuarios/62840cb1e9f279e7b46a3863 HTTP/1.1
+PUT http://localhost:8080/api/usuarios/62840c4e9e67fc8ebe7a232b HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Juan Diego Salazar",
+    "email": "jsalavel@mail.com",
+    "estado" : true
+}
+
+
+###
+DELETE http://localhost:8080/api/usuarios/6286b992efdf7701bf0a6c2a HTTP/1.1
 
 
