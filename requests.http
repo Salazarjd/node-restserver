@@ -17,8 +17,8 @@ POST http://localhost:8080/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
-    "nombre": "Rafael Salazar",
-    "email": "rafsage@mail.com"
+    "nombre": "Daniel Rojas",
+    "email": "drojas@email.com"
 }
 
 

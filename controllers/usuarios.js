@@ -1,4 +1,4 @@
-const {response, request} = require('express')
+const {response, request} = require('express');
 const Usuario = require('../models/usuario');
 
 
@@ -38,8 +38,18 @@ const usuariosPut = async(req, res = response) => {
 
 const usuariosPost = async(req, res = response) => {
 
-    const body = req.body;
-    const usuario = new Usuario(body)
+    const {nombre, email, estado, fechaCreacion, fechaActualizacion} = req.body;
+    const usuario = new Usuario({nombre, email, estado, fechaCreacion, fechaActualizacion});
+
+    const existeEmail = await Usuario.findOne({email});
+
+    if(existeEmail){
+
+        return res.status(400).json({
+            msg: "Ese correo ya está registrado"
+        })
+    }
+
 
     await usuario.save();
 
