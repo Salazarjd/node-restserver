@@ -1,0 +1,23 @@
+###
+GET http://localhost:8080/api/estadoEquipos HTTP/1.1
+
+
+###
+POST http://localhost:8080/api/estadoEquipos HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "En uso"
+}
+
+###
+PUT http://localhost:8080/api/estadoEquipos/6286ea1ece81f727aa5220a4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "En bodega"
+}
+
+
+###
+DELETE http://localhost:8080/api/estadoEquipos/6286ea1ece81f727aa5220a4 HTTP/1.1

@@ -1,4 +1,6 @@
 const Usuario = require('../models/usuario');
+const TipoEquipo = require('../models/tipoEquipo');
+const EstadoEquipo = require('../models/estadoEquipo')
 
 const emailExiste = async( email = '') => {
 
@@ -18,7 +20,27 @@ const existeUsuarioPorId = async( id = '') => {
     }
 }
 
+const existeEquipoPorId = async ( id = '') => {
+
+    const existeEquipo = await TipoEquipo.findById(id);
+
+    if(!existeEquipo){
+        throw new Error(`El id ${id} no existe`);
+    }
+}
+
+const existeEstadoEquipoPorId = async ( id = '') => {
+
+    const existeEquipo = await EstadoEquipo.findById(id);
+
+    if(!existeEquipo){
+        throw new Error(`El id ${id} no existe`);
+    }
+}
+
 module.exports = {
     emailExiste,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    existeEquipoPorId,
+    existeEstadoEquipoPorId
 }
