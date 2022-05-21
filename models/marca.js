@@ -20,4 +20,4 @@ const MarcasSchema = Schema({
 })
 
 
-module.exports = model('Marcas',MarcasSchema);
+module.exports = model('Marca',MarcasSchema);

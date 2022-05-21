@@ -10,7 +10,8 @@ class Server{
             usuarios:      '/api/usuarios',
             tipoEquipos:   '/api/tipoEquipos',
             estadoEquipos: '/api/estadoEquipos',
-            marcas:        '/api/marcas'
+            marcas:        '/api/marcas',
+            inventarios:   '/api/inventarios'
         }
 
         //Conectar a base de datos
@@ -41,6 +42,7 @@ class Server{
         this.app.use(this.paths.tipoEquipos, require('../routes/tipoEquipos'));
         this.app.use(this.paths.estadoEquipos, require('../routes/estadoEquipos'));
         this.app.use(this.paths.marcas, require('../routes/marcas'));
+        this.app.use(this.paths.inventarios, require('../routes/inventarios'));
     }
 
     listen(){

@@ -2,6 +2,7 @@ const Usuario = require('../models/usuario');
 const TipoEquipo = require('../models/tipoEquipo');
 const EstadoEquipo = require('../models/estadoEquipo');
 const Marca = require('../models/marca');
+const Inventario = require('../models/inventario');
 
 const emailExiste = async( email = '') => {
 
@@ -48,10 +49,28 @@ const existeMarcaPorId = async (id = '') => {
     }
 }
 
+const existeSerial = async ( serial = '') => {
+
+    const serialE = await Inventario.find({serial});
+    if(serialE){
+        throw new Error(`El serial ya fue registrado`)
+    }
+}
+
+const modeloExiste = async ( modelo = '') => {
+
+    const modeloE = await Inventario.find({modelo});
+    if(modeloE){
+        throw new Error(`El modelo ya fue registrado`)
+    }
+}
+
 module.exports = {
     emailExiste,
     existeUsuarioPorId,
     existeEquipoPorId,
     existeEstadoEquipoPorId,
-    existeMarcaPorId
+    existeMarcaPorId,
+    existeSerial,
+    modeloExiste
 }

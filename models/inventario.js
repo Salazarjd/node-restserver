@@ -1,4 +1,4 @@
-const {Schema, model, SchemaTypes} = require('mongoose');
+const {Schema, model} = require('mongoose');
 
 const InventarioSchema = Schema({
 
@@ -12,7 +12,7 @@ const InventarioSchema = Schema({
         required: [true, "Debes ingresar un modelo"],
         unique: true
     },
-    descipcion: {
+    descripcion: {
         type: String
     },
     fotoEquipo: {
