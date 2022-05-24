@@ -4,6 +4,7 @@ const { existeEquipoPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const { tipoEquiposGet,
+        tipoEquipoGet,
         tipoEquiposPost, 
         tipoEquiposPut, 
         tipoEquiposDelete} = require('../controllers/tipoEquipos');
@@ -11,6 +12,12 @@ const { tipoEquiposGet,
 const router = Router();
 
 router.get('/', tipoEquiposGet);
+
+router.get('/:id',[
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeEquipoPorId),
+    validarCampos
+],tipoEquipoGet)
 
 router.post('/', tipoEquiposPost);
 

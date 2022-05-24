@@ -2,6 +2,7 @@ const {response, request} = require('express');
 const TipoEquipo = require('../models/tipoEquipo');
 
 
+//Solicitar todos los tipo equipo
 const tipoEquiposGet = async(req, res = response) => {
 
     const query = {estado: true}
@@ -17,6 +18,15 @@ const tipoEquiposGet = async(req, res = response) => {
     });
 }
 
+//Solicitar un tipo equipo por id
+const tipoEquipoGet = async (req, res = response) => {
+
+    const {id} = req.params;
+    const tipoEquipo = await TipoEquipo.findById(id);
+    res.json(tipoEquipo);
+}
+
+//Crear un tipo equipo
 const tipoEquiposPost = async(req, res = response) => {
 
     const {nombre, estado, fechaCreacion, fechaActualizacion} = req.body;
@@ -27,6 +37,7 @@ const tipoEquiposPost = async(req, res = response) => {
     res.json(tipoEquipo);
 }
 
+//Actualizar un tipo equipo
 const tipoEquiposPut = async(req = request, res = response) =>{
 
     const {id} = req.params;
@@ -37,6 +48,7 @@ const tipoEquiposPut = async(req = request, res = response) =>{
     res.json(tipoEquipo);
 }
 
+//Eliminar un tipo equio
 const tipoEquiposDelete = async(req = request, res) =>{
 
     const {id} = req.params;
@@ -45,8 +57,10 @@ const tipoEquiposDelete = async(req = request, res) =>{
     res.json(tipoEquipo);
 }
 
+//exportar modulos
 module.exports = {
     tipoEquiposGet,
+    tipoEquipoGet,
     tipoEquiposPost,
     tipoEquiposPut,
     tipoEquiposDelete

@@ -1,5 +1,6 @@
 const express = require('express')
 const { dbConnection } = require('../database/config');
+const fileUpload = require('express-fileupload');
 
 class Server{
 
@@ -35,6 +36,11 @@ class Server{
 
         //Directorio publico
         this.app.use(express.static('public'));
+
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
     }
 
     Routes(){

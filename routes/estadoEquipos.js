@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { existeEquipoPorId,existeEstadoEquipoPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { estadoEquiposGet, 
+        estadoEquipoGet,
         estadoEquiposPost, 
         estadoEquiposPut, 
         estadoEquiposDelete} = require('../controllers/estadoEquipos');
@@ -11,6 +12,12 @@ const { estadoEquiposGet,
 const router = Router();
 
 router.get('/', estadoEquiposGet);
+
+router.get('/:id',[
+    check('id', 'No es un Id válido').isMongoId(),
+    check('id').custom(existeEstadoEquipoPorId),
+    validarCampos
+], estadoEquipoGet);
 
 router.post('/', estadoEquiposPost);
 

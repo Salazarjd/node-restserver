@@ -1,11 +1,13 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {existeUsuarioPorId, existeSerial, modeloExiste} = require('../helpers/db-validators');
+const {existeUsuarioPorId, existeInventarioPorId, existeSerial, modeloExiste} = require('../helpers/db-validators');
 
-const {inventariosGet,
-    inventariosPost,
-    inventariosPut,
-    inventariosDelete} = require('../controllers/inventarios');
+const { inventariosGet,
+        inventarioGet,
+        inventariosPost,
+        inventariosPut,
+        inventariosDelete,
+        uploadImage} = require('../controllers/inventarios');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 
@@ -28,11 +30,21 @@ const verificaciones = [
 
 router.get('/', inventariosGet);
 
+router.get('/:id',[
+    check('id', 'No es un id válido').isMongoId(),
+    check('id').custom(existeInventarioPorId),
+    validarCampos
+], inventarioGet);
+
 router.post('/',verificaciones, inventariosPost);
 
 router.put('/:id',verificaciones, inventariosPut);
 
 router.delete('/:id', inventariosDelete);
+
+router.post('/:id/upload-image', uploadImage);
+
+router.get('/:id/image', () => {});
 
 
 module.exports = router;

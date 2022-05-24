@@ -49,6 +49,15 @@ const existeMarcaPorId = async (id = '') => {
     }
 }
 
+const existeInventarioPorId = async( id = '') => {
+
+    const existeInventario = await Inventario.findById(id);
+
+    if(!existeInventario){
+        throw new Error(`El id ${id} no existe`);
+    }
+}
+
 const existeSerial = async ( serial = '') => {
 
     const serialE = await Inventario.find({serial});
@@ -71,6 +80,7 @@ module.exports = {
     existeEquipoPorId,
     existeEstadoEquipoPorId,
     existeMarcaPorId,
+    existeInventarioPorId,
     existeSerial,
     modeloExiste
 }
