@@ -106,7 +106,9 @@ const inventariosDelete = async (req, res = response) => {
 }
 
 
-//Cargar imagen
+/**
+ * Sube foto del inventario
+ */
 const uploadImage = async (req = request, res = response) => {
     const { id } = req.params;
     const invBD = await Inventario.findOne({ _id: id});
@@ -115,7 +117,7 @@ const uploadImage = async (req = request, res = response) => {
             msj: 'No existe en inventario'
         });
     }
-    if(!req.files || Object.keys(req.files) || req.files.foto){
+    if(!req.files || Object.keys(req.files) == 0 || !req.files.foto){
         return res.status(400).json({
             msj: 'No se está subiendo una foto'
         });
@@ -130,9 +132,38 @@ const uploadImage = async (req = request, res = response) => {
             msj: 'Extension no aceptada'
         });
     }
-    const nombreTemp = `${uuidv4()}.${extension}`; 
+    const nombreTemp = `${uuidv4()}.${extension}`;
+    const rutaSubida = path.join(__dirname, '../uploads', nombreTemp);
+    //uploads/dadasdasdada.jpg
+    foto.mv(rutaSubida, e => {
+        if(e){
+            return res.status(500).json({ error: e});
+        }
+    });
+    const data = {};
+    data.foto = nombreTemp;
+    const inv = await Inventario.findByIdAndUpdate(id, data, {new : true});
+    if(!inv){
+        return res.status(400).json({ error: 'Error al actualizar'});
+    }
+    res.status(201).json({msj: 'Se subió la foto'});
 }
 
+/**
+ * Lee la foto del inventario por Id
+ */
+const getFotoById =  async (req = request, res = response) => {
+    const { id } = req.params;
+    const inventarioBD = await Inventario.findOne({ _id: id });
+    if(!inventarioBD){
+        return res.status(400).json({ error: 'No existe en inventario'});
+    }
+    const nombreFoto = inventarioBD.foto;
+    const rutaImg = path.join(__dirname, '../uploads', nombreFoto);
+    if(fs.existsSync(rutaImg)){
+        res.sendFile(rutaImg);
+    }
+}
 
 //Exportar modulos
 module.exports = {
@@ -141,6 +172,7 @@ module.exports = {
     inventariosPost,
     inventariosPut,
     inventariosDelete,
-    uploadImage
+    uploadImage,
+    getFotoById
     
 }

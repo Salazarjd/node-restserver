@@ -23,6 +23,7 @@ class Server{
 
         //Rutas de mi aplicación
         this.Routes();
+        
     }
 
     async conectarDB(){

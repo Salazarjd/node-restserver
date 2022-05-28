@@ -7,7 +7,8 @@ const { inventariosGet,
         inventariosPost,
         inventariosPut,
         inventariosDelete,
-        uploadImage} = require('../controllers/inventarios');
+        uploadImage,
+        getFotoById} = require('../controllers/inventarios');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 
@@ -45,6 +46,8 @@ router.delete('/:id', inventariosDelete);
 router.post('/:id/upload-image', uploadImage);
 
 router.get('/:id/image', () => {});
+
+router.get('/:id/image', getFotoById);
 
 
 module.exports = router;
