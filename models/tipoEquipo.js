@@ -13,7 +13,7 @@ const TipoEquipoSchema = Schema({
         type: Date,
         default: new Date()
     },
-    fechaActualización:{
+    fechaActualizacion:{
         type: Date,
         default: new Date()
     }
