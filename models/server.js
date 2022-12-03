@@ -15,6 +15,7 @@ class Server {
       marcas: "/api/marcas",
       inventarios: "/api/inventarios",
     };
+    this.authPath = '/api/auth'
 
     //Conectar a base de datos
     this.conectarDB();
@@ -51,6 +52,7 @@ class Server {
   }
 
   Routes() {
+    this.app.use(this.authPath, require("../routes/auth"));
     this.app.use(this.paths.usuarios, require("../routes/usuarios"));
     this.app.use(this.paths.tipoEquipos, require("../routes/tipoEquipos"));
     this.app.use(this.paths.estadoEquipos, require("../routes/estadoEquipos"));
