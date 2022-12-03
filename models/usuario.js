@@ -10,9 +10,14 @@ const UsuarioSchema = Schema({
         required: [true, 'El correo es obligatorio'],
         unique: true
     },
-    estado: {
-        type: Boolean,
-        default: true
+    password: {
+        type: String,
+        required: [true, 'El correo es obligatorio']
+    },
+    rol: {
+        type: String,
+        required: true,
+        enum: ['ADMIN', "DOCENTE"]
     },
     fechaCreacion: {
         type: Date,
