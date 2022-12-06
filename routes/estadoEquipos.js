@@ -7,27 +7,42 @@ const { estadoEquiposGet,
         estadoEquiposPost, 
         estadoEquiposPut, 
         estadoEquiposDelete} = require('../controllers/estadoEquipos');
+const { esAdminRole } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 
 const router = Router();
 
-router.get('/', estadoEquiposGet);
+router.get('/', [
+    validarJWT,
+    validarCampos
+],estadoEquiposGet);
 
-router.get('/:id',[
+router.get('/:id', [
+    validarJWT,
     check('id', 'No es un Id válido').isMongoId(),
     check('id').custom(existeEstadoEquipoPorId),
     validarCampos
 ], estadoEquipoGet);
 
-router.post('/', estadoEquiposPost);
+router.post('/', [
+    validarJWT,
+    esAdminRole,
+    check('nombre','El nombre es obligaorio').not().isEmpty(),    
+    validarCampos
+] ,estadoEquiposPost);
 
-router.put('/:id',[
+router.put('/:id', [
+    validarJWT,
+    esAdminRole,
     check('id', 'No es un Id válido').isMongoId(),
     check('id').custom(existeEstadoEquipoPorId),
     validarCampos
 ], estadoEquiposPut);
 
-router.delete('/:id',[
+router.delete('/:id', [
+    validarJWT,
+    esAdminRole,
     check('id', 'No es un Id válido').isMongoId(),
     check('id').custom(existeEstadoEquipoPorId),
     validarCampos

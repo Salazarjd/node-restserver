@@ -12,15 +12,21 @@ const { esAdminRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
-router.get('/', usuariosGet);
+router.get('/', [
+        validarJWT,
+        validarCampos
+],usuariosGet);
 
-router.get('/:id',[
+router.get('/:id', [
+        validarJWT,
         check('id', 'No es un ID válido').isMongoId(),
         check('id').custom( existeUsuarioPorId ),
         validarCampos
 ], usuarioGet);
 
 router.post('/', [
+        validarJWT,
+        esAdminRole,
         check('nombre','El nombre es obligaorio').not().isEmpty(),    
         check('email','El correo no es válido').isEmail(),
         check('email').custom(emailExiste),
@@ -30,6 +36,8 @@ router.post('/', [
 ], usuariosPost);
 
 router.put('/:id', [
+        validarJWT,
+        esAdminRole,
         check('id', 'No es un ID válido').isMongoId(),
         check('id').custom(existeUsuarioPorId),
         check('rol', 'Rol invalido').isIn(['ADMIN', 'DOCENTE']),

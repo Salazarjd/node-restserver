@@ -60,7 +60,7 @@ const existeInventarioPorId = async( id = '') => {
 
 const existeSerial = async ( serial = '') => {
 
-    const serialE = await Inventario.find({serial});
+    const serialE = await Inventario.findOne({ serial });
     if(serialE){
         throw new Error(`El serial ya fue registrado`)
     }
@@ -68,7 +68,7 @@ const existeSerial = async ( serial = '') => {
 
 const modeloExiste = async ( modelo = '') => {
 
-    const modeloE = await Inventario.find({modelo});
+    const modeloE = await Inventario.findOne({modelo});
     if(modeloE){
         throw new Error(`El modelo ya fue registrado`)
     }

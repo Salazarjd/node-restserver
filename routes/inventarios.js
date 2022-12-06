@@ -10,11 +10,15 @@ const { inventariosGet,
         uploadImage,
         getFotoById} = require('../controllers/inventarios');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { esAdminRole } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 
 const router = Router();
 
 const verificaciones = [
+    validarJWT,
+    esAdminRole,
     check('usuario','El usuario es obligaorio').not().isEmpty(),
     check('usuario', "No es un id válido para el usuario").isMongoId(),
     check('usuario').custom(existeUsuarioPorId),
@@ -29,9 +33,13 @@ const verificaciones = [
     validarCampos
 ]
 
-router.get('/', inventariosGet);
+router.get('/', [
+    validarJWT,
+    validarCampos
+] ,inventariosGet);
 
-router.get('/:id',[
+router.get('/:id', [
+    validarJWT,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeInventarioPorId),
     validarCampos
@@ -41,7 +49,13 @@ router.post('/',verificaciones, inventariosPost);
 
 router.put('/:id',verificaciones, inventariosPut);
 
-router.delete('/:id', inventariosDelete);
+router.delete('/:id', [
+    validarJWT,
+    esAdminRole,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( existeInventarioPorId ),
+    validarCampos
+],inventariosDelete);
 
 router.post('/:id/upload-image', uploadImage);
 

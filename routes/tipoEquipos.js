@@ -1,33 +1,48 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const { check } = require('express-validator');
 const { existeEquipoPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const { tipoEquiposGet,
-        tipoEquipoGet,
-        tipoEquiposPost, 
-        tipoEquiposPut, 
-        tipoEquiposDelete} = require('../controllers/tipoEquipos');
+    tipoEquipoGet,
+    tipoEquiposPost,
+    tipoEquiposPut,
+    tipoEquiposDelete } = require('../controllers/tipoEquipos');
+const { esAdminRole } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-router.get('/', tipoEquiposGet);
+router.get('/', [
+    validarJWT,
+    validarCampos
+],tipoEquiposGet);
 
-router.get('/:id',[
+router.get('/:id', [
+    validarJWT,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeEquipoPorId),
     validarCampos
-],tipoEquipoGet)
+], tipoEquipoGet)
 
-router.post('/', tipoEquiposPost);
+router.post('/',[
+    validarJWT,
+    esAdminRole,
+    check('nombre','El nombre es obligaorio').not().isEmpty(),    
+    validarCampos
+] ,tipoEquiposPost);
 
-router.put('/:id',[
+router.put('/:id', [
+    validarJWT,
+    esAdminRole,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeEquipoPorId),
     validarCampos
 ], tipoEquiposPut);
 
-router.delete('/:id',[
+router.delete('/:id', [
+    validarJWT,
+    esAdminRole,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeEquipoPorId),
     validarCampos

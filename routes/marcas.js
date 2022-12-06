@@ -7,6 +7,8 @@ const { marcasGet,
         marcasPost,
         marcasPut,
         marcasDelete} = require('../controllers/marcas');
+const { esAdminRole } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 
 const router = Router();
@@ -14,20 +16,34 @@ const router = Router();
 router.get('/', marcasGet);
 
 router.get('/:id',[
+    validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeMarcaPorId),
     validarCampos
 ], marcaGet);
 
-router.post('/', marcasPost);
+router.post('/', [
+    validarJWT,
+    esAdminRole,
+    check('nombre','El nombre es obligaorio').not().isEmpty(),    
+    validarCampos
+] ,marcasPost);
 
-router.put('/:id',[
+router.put('/:id', [
+    validarJWT,
+    esAdminRole,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeMarcaPorId),
     validarCampos
 ], marcasPut);
 
-router.delete('/:id', marcasDelete);
+router.delete('/:id',[
+    validarJWT,
+    esAdminRole,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( existeMarcaPorId ),
+    validarCampos
+], marcasDelete);
 
 
 module.exports = router;
